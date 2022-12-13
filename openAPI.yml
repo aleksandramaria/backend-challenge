@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Stream An Event
   description: An API that allows users to request up to 3 concurrent DAZN streams
-  version: 1.0.11
+  version: 0.0.0
 
 paths:
   /v1/reservation/{userId}:
@@ -21,11 +21,11 @@ paths:
       operationId: incrementCounter
       responses:
                 200:
-                    $ref: '#/components/responses/200'
+                    $ref: '#/components/responses/reservation_200'
                 400:
                     $ref: '#/components/responses/400'
                 404:
-                    $ref: '#/components/responses/404'
+                    $ref: '#/components/responses/reservation_404'
                 500:
                     $ref: '#/components/responses/500'
                     
@@ -45,138 +45,67 @@ paths:
       operationId: decrementCounter
       responses:
                 200:
-                    $ref: '#/components/responses/version_200'
+                    $ref: '#/components/responses/removeReservation_200'
                 404:
-                    $ref: '#/components/responses/version_404'
+                    $ref: '#/components/responses/removeReservation_404'
                 500:
                     $ref: '#/components/responses/500'
+
 components:
     responses:
-        200:
+        reservation_200:
             description: Operation finished successfully, reservation has been created and placed on a selected stream.
             content:
                 application/json:
                     schema:
                         type: object
-                       
-        400:
-            description: Request failed validation.
-            content:
-                application/json:
-                    schema:
-                        required:
-                            - odata.error.code
-                        type: object
-                        properties:
-                            odata.error.code:
-                                $ref: '#/components/schemas/code_400'
-                            odata.error.message:
-                                $ref: '#/components/schemas/errorMessage'
-                        example:
-                            odata.error:
-                                code: 10196
-                                message:
-                                    lang: en-US
-                                    value: Request failed validation
-                                    
-        404:
-            description: Event or user not found in database.
-            content:
-                application/json:
-                    schema:
-                        required:
-                            - odata.error.code
-                        type: object
-                        properties:
-                            odata.error.code:
-                                $ref: '#/components/schemas/code_400'
-                            odata.error.message:
-                                $ref: '#/components/schemas/errorMessage'
-                        example:
-                            odata.error:
-                                code: 10196
-                                message:
-                                    lang: en-US
-                                    value: Request failed validation
-  
-        500:
-            description: Internal server error.
-            content:
-                application/json:
-                    schema:
-                        required:
-                            - odata.error.code
-                        type: object
-                        properties:
-                            odata.error.code:
-                                $ref: '#/components/schemas/code_500'
-                            odata.error.message:
-                                $ref: '#/components/schemas/errorMessage'
-                        example:
-                            odata.error:
-                                code: 10197
-                                message:
-                                    lang: en-US
-                                    value: Service is not available
-
-        version_200:
+        removeReservation_200:
             description: Operation finished successfully, reservation has been removed and stream counter decremented.
             content:
                 application/json:
                     schema:
                         type: object
+        400:
+            description: Request failed validation.
+            content:
+                application/json:
+                    schema:
+                        type: object
                         properties:
-                            response:
-                                $ref: '#/components/schemas/versionResponse'
+                            message:
+                                type: string
                         example:
-                            serviceName: removeReservation-microservice
-                            version: 1.0.0
-
-        version_404:
+                            message: Request failed validation
+        reservation_404:
+            description: User not found in database.
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            message:
+                                type: string
+                        example:
+                            message: User not found in database
+        removeReservation_404:
             description: User not found.
             content:
                 application/json:
                     schema:
-                        required:
-                            - errorCode
-                        properties:
-                            errorCode:
-                                $ref: '#/components/schemas/errorCode_404'
                         type: object
+                        properties:
+                            message:
+                                type: string
                         example:
-                            serviceName: removeReservation-microservice
-                            version: 1.0.0
-
-    schemas:
-        errorMessage:
-            type: object
-            properties:
-                lang:
-                    description: Error language code
-                    type: string
-                value:
-                    description: Error message value
-                    type: string
-        code_400:
-            enum:
-                - '10196'
-            type: string
-        code_500:
-            enum:
-                - '10197'
-            type: string
-        errorCode_404:
-            enum:
-                - '10197'
-            type: string
-        versionResponse:
-            type: object
-            properties:
-                serviceName:
-                    description: Name of service
-                    type: string
-                version:
-                    description: Version of service
-                    type: string
-                status:
-                    type: object
+                            message: User not found
+        500:
+            description: Internal server error.
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            message:
+                                type: string
+                        example:
+                            message: Service is not available
