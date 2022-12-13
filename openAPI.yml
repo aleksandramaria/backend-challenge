@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Stream An Event
+  description: An API that allows users to request up to 3 concurrent DAZN streams
+  version: 0.0.0
+
+paths:
+  /v1/reservation/{userId}:
+    parameters:
+            - name: userId
+              in: path
+              required: true
+              description: Id of a user for whom the reservation is supposed to be placed
+              schema:
+                  type: string
+    post:
+      tags:
+        - Reserve a Stream
+      summary: Checks the counter of streams for a given user and if allowed places a reservation for a selected event
+      description: Checks how many concurrent events are currently being streamed for a given user and if the number is less than 3 puts a stream reservation for a selected event
+      operationId: incrementCounter
+      responses:
+                200:
+                    $ref: '#/components/responses/200'
+                400:
+                    $ref: '#/components/responses/400'
+                404:
+                    $ref: '#/components/responses/404'
+                500:
+                    $ref: '#/components/responses/500'
+                    
+  /v1/removeReservation/{userId}:
+    parameters:
+            - name: userId
+              in: path
+              required: true
+              description: Id of a user for whom the reservation is supposed to be removed
+              schema:
+                  type: string
+    post:
+      tags:
+        - Remove a Stream
+      summary: Decrements number of streams
+      description: Decrements the number of total concurrent streams being played at the same time for a given user
+      operationId: decrementCounter
+      responses:
+                200:
+                    $ref: '#/components/responses/version_200'
+                404:
+                    $ref: '#/components/responses/version_404'
+                500:
+                    $ref: '#/components/responses/500'
+components:
+    responses:
+        200:
+            description: Operation finished successfully, reservation has been created and placed on a selected stream.
+            content:
+                application/json:
+                    schema:
+                        type: object
+                       
+        400:
+            description: Request failed validation.
+            content:
+                application/json:
+                    schema:
+                        required:
+                            - odata.error.code
+                        type: object
+                        properties:
+                            odata.error.code:
+                                $ref: '#/components/schemas/code_400'
+                            odata.error.message:
+                                $ref: '#/components/schemas/errorMessage'
+                        example:
+                            odata.error:
+                                code: 10196
+                                message:
+                                    lang: en-US
+                                    value: Request failed validation
+                                    
+        404:
+            description: Event or user not found in database.
+            content:
+                application/json:
+                    schema:
+                        required:
+                            - odata.error.code
+                        type: object
+                        properties:
+                            odata.error.code:
+                                $ref: '#/components/schemas/code_400'
+                            odata.error.message:
+                                $ref: '#/components/schemas/errorMessage'
+                        example:
+                            odata.error:
+                                code: 10196
+                                message:
+                                    lang: en-US
+                                    value: Request failed validation
+  
+        500:
+            description: Internal server error.
+            content:
+                application/json:
+                    schema:
+                        required:
+                            - odata.error.code
+                        type: object
+                        properties:
+                            odata.error.code:
+                                $ref: '#/components/schemas/code_500'
+                            odata.error.message:
+                                $ref: '#/components/schemas/errorMessage'
+                        example:
+                            odata.error:
+                                code: 10197
+                                message:
+                                    lang: en-US
+                                    value: Service is not available
+
+        version_200:
+            description: Operation finished successfully, reservation has been removed and stream counter decremented.
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            response:
+                                $ref: '#/components/schemas/versionResponse'
+                        example:
+                            serviceName: removeReservation-microservice
+                            version: 1.0.0
+
+        version_404:
+            description: User not found.
+            content:
+                application/json:
+                    schema:
+                        required:
+                            - errorCode
+                        properties:
+                            errorCode:
+                                $ref: '#/components/schemas/errorCode_404'
+                        type: object
+                        example:
+                            serviceName: removeReservation-microservice
+                            version: 1.0.0
+
+    schemas:
+        errorMessage:
+            type: object
+            properties:
+                lang:
+                    description: Error language code
+                    type: string
+                value:
+                    description: Error message value
+                    type: string
+        code_400:
+            enum:
+                - '10196'
+            type: string
+        code_500:
+            enum:
+                - '10197'
+            type: string
+        errorCode_404:
+            enum:
+                - '10197'
+            type: string
+        versionResponse:
+            type: object
+            properties:
+                serviceName:
+                    description: Name of service
+                    type: string
+                version:
+                    description: Version of service
+                    type: string
+                status:
+                    type: object
+  
