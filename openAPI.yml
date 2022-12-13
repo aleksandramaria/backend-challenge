@@ -2,6 +2,7 @@ openapi: 3.0.3
 info:
   title: Stream An Event
   description: An API that allows users to request up to 3 concurrent DAZN streams
+BE-challenge-implementation
   version: 0.0.0
 
 paths:
@@ -179,5 +180,5 @@ components:
                     description: Version of service
                     type: string
                 status:
+BE-challenge-implementation
                     type: object
-  
