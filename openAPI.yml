@@ -50,6 +50,7 @@ paths:
                     $ref: '#/components/responses/removeReservation_404'
                 500:
                     $ref: '#/components/responses/500'
+
 components:
     responses:
         reservation_200:
@@ -58,7 +59,12 @@ components:
                 application/json:
                     schema:
                         type: object
-                       
+        removeReservation_200:
+            description: Operation finished successfully, reservation has been removed and stream counter decremented.
+            content:
+                application/json:
+                    schema:
+                        type: object
         400:
             description: Request failed validation.
             content:
@@ -66,11 +72,10 @@ components:
                     schema:
                         type: object
                         properties:
-                            message: string
-                        example:
                             message:
-                                value: Request failed validation
-                                    
+                                type: string
+                        example:
+                            message: Request failed validation
         reservation_404:
             description: User not found in database.
             content:
@@ -78,30 +83,10 @@ components:
                     schema:
                         type: object
                         properties:
-                            message: string
-                        example:
                             message:
-                                value: User not found in database
-  
-        500:
-            description: Internal server error.
-            content:
-                application/json:
-                    schema:
-                        type: object
-                        properties:
-                            message: string
+                                type: string
                         example:
-                            message:
-                                value: Service is not available
-
-        removeReservation_200:
-            description: Operation finished successfully, reservation has been removed and stream counter decremented.
-            content:
-                application/json:
-                    schema:
-                        type: object
-
+                            message: User not found in database
         removeReservation_404:
             description: User not found.
             content:
@@ -109,7 +94,18 @@ components:
                     schema:
                         type: object
                         properties:
-                           message: string
-                        example:
                             message:
-                                value: User not found
+                                type: string
+                        example:
+                            message: User not found
+        500:
+            description: Internal server error.
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            message:
+                                type: string
+                        example:
+                            message: Service is not available
