@@ -1,5 +1,5 @@
-const express = require('express')
-const router = express.Router()
+import express from 'express';
+export const router = express.Router()
 
 class ServerError extends Error {
   constructor (statusCode, message) {
@@ -43,5 +43,3 @@ router.post('/removeReservation/:userId', (req, res) => {
   decreaseCounter(req.params.userId);
   return res.status(200).send({ message: 'OK' });
 });
-
-module.exports = router;

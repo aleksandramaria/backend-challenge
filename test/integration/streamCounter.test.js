@@ -15,8 +15,7 @@ describe('Test streamService endpoints', () => {
     });
 
     it('Should always return 200 response', async () => {
-        const response = await got(`localhost:3000/stream/reservation/${testUserId}`);
-        console.log(response);
-        expect(response.body.StatusCode).toBe(200);
+        const response = await got.post(`http://localhost:3000/stream/reservation/${testUserId}`);
+        expect(response.statusCode).toBe(200);
     });
 });

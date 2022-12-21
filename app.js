@@ -1,8 +1,8 @@
-const express = require('express')
-const stream = require('./stream')
+import express from 'express';
+import { router as stream } from './stream.js';
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
 // app.post('/reservation/{userId}', (req, res) => {
 //   res.send()
@@ -15,7 +15,7 @@ const port = 3000
 // })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
 
-app.use('/stream', stream)
+app.use('/stream', stream);

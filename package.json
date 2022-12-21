@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "A service in Node.js that exposes an API which can be consumed from any client.",
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "test": "jest --config test/integration/jest.json",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --config test/integration/jest.json",
     "devStart": "nodemon app.js"
   },
   "repository": {
