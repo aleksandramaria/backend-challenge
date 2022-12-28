@@ -5,7 +5,7 @@ info:
   version: 0.0.0
 
 paths:
-  /v1/reservation/{userId}:
+  /stream/reservation/{userId}:
     parameters:
             - name: userId
               in: path
@@ -24,12 +24,10 @@ paths:
                     $ref: '#/components/responses/reservation_200'
                 400:
                     $ref: '#/components/responses/400'
-                404:
-                    $ref: '#/components/responses/reservation_404'
                 500:
                     $ref: '#/components/responses/500'
                     
-  /v1/removeReservation/{userId}:
+  /stream/removeReservation/{userId}:
     parameters:
             - name: userId
               in: path
@@ -46,8 +44,6 @@ paths:
       responses:
                 200:
                     $ref: '#/components/responses/removeReservation_200'
-                404:
-                    $ref: '#/components/responses/removeReservation_404'
                 500:
                     $ref: '#/components/responses/500'
 
@@ -66,7 +62,7 @@ components:
                     schema:
                         type: object
         400:
-            description: Request failed validation.
+            description: Reached maximum number of streams.
             content:
                 application/json:
                     schema:
@@ -75,29 +71,7 @@ components:
                             message:
                                 type: string
                         example:
-                            message: Request failed validation
-        reservation_404:
-            description: User not found in database.
-            content:
-                application/json:
-                    schema:
-                        type: object
-                        properties:
-                            message:
-                                type: string
-                        example:
-                            message: User not found in database
-        removeReservation_404:
-            description: User not found.
-            content:
-                application/json:
-                    schema:
-                        type: object
-                        properties:
-                            message:
-                                type: string
-                        example:
-                            message: User not found
+                            message: Reached maximum number of streams
         500:
             description: Internal server error.
             content:
