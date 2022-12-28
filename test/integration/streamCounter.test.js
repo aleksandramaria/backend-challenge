@@ -7,9 +7,8 @@ const randomTestUserId = uuidv4();
 const maxStreams = 3;
 
 describe('Test streamService endpoints', () => {
-    
     afterEach(async () => {
-        for(let i = 0; i < maxStreams; i++) {
+        for (let i = 0; i < maxStreams; i++) {
             await got.post(`${ENDPOINT_URL}/removeReservation/${testUserId}`);
         }
     });
@@ -26,7 +25,7 @@ describe('Test streamService endpoints', () => {
         let statusCode;
         try {
             await got.post(`${ENDPOINT_URL}/reservation/${testUserId}`);
-        } catch(e) {
+        } catch (e) {
             statusCode = e.response.statusCode;
         }
         expect(statusCode).toBe(400);
