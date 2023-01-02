@@ -9,7 +9,7 @@ class ServerError extends Error {
 }
 
 const counters = new Map();
-const increaseCounter = userId => {
+const increaseCounter = (userId) => {
     if (counters.has(userId)) {
         const value = counters.get(userId);
         if (value === 3) {
@@ -21,7 +21,7 @@ const increaseCounter = userId => {
     }
 };
 
-const decreaseCounter = userId => {
+const decreaseCounter = (userId) => {
     if (counters.has(userId)) {
         const value = counters.get(userId);
         if (value !== 0) {

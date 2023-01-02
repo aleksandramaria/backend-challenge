@@ -1,47 +1,47 @@
 openapi: 3.0.3
 info:
-  title: Stream An Event
-  description: An API that allows users to request up to 3 concurrent DAZN streams
-  version: 0.0.0
+    title: Stream An Event
+    description: An API that allows users to request up to 3 concurrent DAZN streams
+    version: 0.0.0
 
 paths:
-  /stream/reservation/{userId}:
-    parameters:
+    /stream/reservation/{userId}:
+        parameters:
             - name: userId
               in: path
               required: true
               description: Id of a user for whom the reservation is supposed to be placed
               schema:
                   type: string
-    post:
-      tags:
-        - Reserve a Stream
-      summary: Checks the counter of streams for a given user and if allowed places a reservation for a selected event
-      description: Checks how many concurrent events are currently being streamed for a given user and if the number is less than 3 puts a stream reservation for a selected event
-      operationId: incrementCounter
-      responses:
+        post:
+            tags:
+                - Reserve a Stream
+            summary: Checks the counter of streams for a given user and if allowed places a reservation for a selected event
+            description: Checks how many concurrent events are currently being streamed for a given user and if the number is less than 3 puts a stream reservation for a selected event
+            operationId: incrementCounter
+            responses:
                 200:
                     $ref: '#/components/responses/reservation_200'
                 400:
                     $ref: '#/components/responses/400'
                 500:
                     $ref: '#/components/responses/500'
-                    
-  /stream/removeReservation/{userId}:
-    parameters:
+
+    /stream/removeReservation/{userId}:
+        parameters:
             - name: userId
               in: path
               required: true
               description: Id of a user for whom the reservation is supposed to be removed
               schema:
                   type: string
-    post:
-      tags:
-        - Remove a Stream
-      summary: Decrements number of streams
-      description: Decrements the number of total concurrent streams being played at the same time for a given user
-      operationId: decrementCounter
-      responses:
+        post:
+            tags:
+                - Remove a Stream
+            summary: Decrements number of streams
+            description: Decrements the number of total concurrent streams being played at the same time for a given user
+            operationId: decrementCounter
+            responses:
                 200:
                     $ref: '#/components/responses/removeReservation_200'
                 500:
