@@ -10,8 +10,8 @@
     "format:check": "prettier --check -c ./ --ignore-unknown",
     "lint": "eslint --ext .js .",
     "sls-deploy": "dazn aws exec -p dazn-discovery-dev -- sls deploy",
-    "invoke-hello":  "sls invoke local --function hello",
-    "invoke-reservation": "sls invoke local --function reservation" 
+    "invoke-reservation": "sls invoke local --function reservation",
+    "invoke-removeReservation": "sls invoke local --function removeReservation"
   },
   "repository": {
     "type": "git",

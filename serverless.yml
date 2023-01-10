@@ -8,16 +8,23 @@ provider:
   stage: dev
 
 functions:
-  hello:
-    handler: handler.hello
+  removeReservation:
+    handler: handler.removeReservation
     events:
-     - http:
-         path: /
-         method: get
-
+      - http:
+          path: removeReservation/{userId}
+          method: post
+          request:
+              parameters:
+                paths:
+                  userId: true
   reservation:
     handler: handler.reservation
     events:
      - http:
-         path: /reservation
-         method: get
+         path: reservation/{userId}
+         method: post
+         request:
+            parameters:
+              paths:
+                userId: true
